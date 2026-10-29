@@ -1,0 +1,9 @@
+{
+  "name": "photosphere-static-gallery",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Framework-free BCS353 photo gallery. No install or build is required to open index.html.",
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist && cp index.html style.css script.js favicon.svg dist/ && cp -r images dist/images"
+  }
+}

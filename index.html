@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="PhotoSphere is a responsive personal photo gallery built with HTML5, CSS3 and vanilla JavaScript for BCS353 Web Designing Workshop."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>PhotoSphere — Every Picture Tells a Story</title>
+    <script src="script.js" defer></script>
+    <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+    <script data-arena-recording="true">(function(){
+"use strict";
+var SK="__arena_rec",RRWEB_CDN="https://cdn.jsdelivr.net/npm/rrweb@2.0.0-alpha.4/dist/rrweb.min.js";
+var MAX_RECORDING_MS=600000,MAX_RRWEB_EVENTS=30000,MAX_INTERACTIONS=5000,MAX_CURSOR_POINTS=10000,recStopped=false;
+var stored=null;try{var raw=sessionStorage.getItem(SK);if(raw)stored=JSON.parse(raw);}catch(ex){}
+var meta=stored?stored.m||null:null,rrwebEvents=stored?stored.r||[]:[],rrwebStarted=false,startTime=stored?stored.st||Date.now():Date.now();
+var interactions=stored?stored.i||[]:[],cursorPath=stored?stored.c||[]:[],lastCursorSample=0,lastScrollSample=0;
+var pageHeight=document.documentElement.scrollHeight;
+var viewport={width:window.innerWidth,height:window.innerHeight};
+function isCapped(){if(recStopped)return true;if(Date.now()-startTime>=MAX_RECORDING_MS){recStopped=true;return true;}return false;}
+function persist(){try{var d=JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime});sessionStorage.setItem(SK,d);}catch(ex){rrwebEvents=rrwebEvents.slice(Math.floor(rrwebEvents.length/2));try{sessionStorage.setItem(SK,JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime}));}catch(ex2){}}}
+setInterval(persist,5000);
+window.addEventListener("resize",function(){viewport={width:window.innerWidth,height:window.innerHeight};pageHeight=document.documentElement.scrollHeight;});
+document.addEventListener("click",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var el=e.target;var tag=el.tagName?el.tagName.toLowerCase():"";var text=(el.textContent||"").trim().substring(0,80);var classes=el.className&&typeof el.className==="string"?el.className.substring(0,120):"";interactions.push({type:"click",t:Date.now()-startTime,x:Math.round(e.clientX),y:Math.round(e.clientY),element:{tag:tag,text:text,classes:classes}});},true);
+window.addEventListener("scroll",function(){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var now=Date.now();if(now-lastScrollSample<200)return;lastScrollSample=now;var scrollY=Math.round(window.scrollY||window.pageYOffset||0);var depthPct=pageHeight>viewport.height?Math.min(100,Math.round(((scrollY+viewport.height)/pageHeight)*100)):100;interactions.push({type:"scroll",t:now-startTime,y:scrollY,depth_pct:depthPct});},{passive:true});
+document.addEventListener("mousemove",function(e){if(isCapped()||cursorPath.length>=MAX_CURSOR_POINTS)return;var now=Date.now();if(now-lastCursorSample<250)return;lastCursorSample=now;cursorPath.push([Math.round(e.clientX),Math.round(e.clientY),now-startTime]);},{passive:true});
+document.addEventListener("keydown",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;if(e.target&&(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"))return;interactions.push({type:"keydown",t:Date.now()-startTime,key:e.key});},true);
+function buildAnalytics(){if(!meta)return null;var ph=document.documentElement.scrollHeight;var maxScroll=0,clickElements={},firstClick=null,firstScroll=null,totalDistance=0;for(var i=0;i<interactions.length;i++){var ev=interactions[i];if(ev.type==="scroll"){if(ev.depth_pct>maxScroll)maxScroll=ev.depth_pct;if(!firstScroll)firstScroll=ev.t;}if(ev.type==="click"){if(!firstClick)firstClick=ev.t;var key=ev.element.tag+":"+ev.element.text.substring(0,30);clickElements[key]=true;}}for(var j=1;j<cursorPath.length;j++){var dx=cursorPath[j][0]-cursorPath[j-1][0];var dy=cursorPath[j][1]-cursorPath[j-1][1];totalDistance+=Math.sqrt(dx*dx+dy*dy);}var duration=Date.now()-startTime;var clickHeatmap=[];for(var k=0;k<interactions.length;k++){if(interactions[k].type==="click")clickHeatmap.push([interactions[k].x,interactions[k].y]);}return{generation_id:meta.generationId,tournament_id:meta.tournamentId,started_at:new Date(startTime).toISOString(),ended_at:new Date().toISOString(),duration_ms:duration,viewport:viewport,page_height:ph,interactions:interactions,cursor_path:cursorPath,click_heatmap:clickHeatmap,summary:{total_clicks:clickHeatmap.length,total_scrolls:interactions.filter(function(e){return e.type==="scroll";}).length,max_scroll_depth_pct:maxScroll,unique_elements_clicked:Object.keys(clickElements).length,time_to_first_click_ms:firstClick,time_to_first_scroll_ms:firstScroll,cursor_distance_px:Math.round(totalDistance),active_time_ms:duration}};}
+function loadRrweb(){if(rrwebStarted)return;rrwebStarted=true;var s=document.createElement("script");s.src=RRWEB_CDN;s.onload=function(){var rec=(window.rrweb&&window.rrweb.record)||window.rrwebRecord;if(!rec)return;rec({emit:function(event){if(rrwebEvents.length>=MAX_RRWEB_EVENTS||isCapped())return;rrwebEvents.push(event);}});};s.onerror=function(){};document.head.appendChild(s);}
+window.addEventListener("message",function(e){if(!e.data||typeof e.data.type!=="string")return;if(e.data.type==="arena:init"){if(!meta)startTime=Date.now();meta={generationId:e.data.generationId||e.data.modelId,tournamentId:e.data.tournamentId};persist();loadRrweb();if(e.source)e.source.postMessage({type:"arena:init-ack",generationId:meta.generationId},"*");}if(e.data.type==="arena:flush"){var resp={type:"arena:recording-data",generationId:meta?meta.generationId:null,rrwebEvents:rrwebEvents,analytics:buildAnalytics()};try{sessionStorage.removeItem(SK);}catch(ex){}if(e.source)e.source.postMessage(resp,"*");}});
+loadRrweb();
+})();</script>
+  <script data-arena-views="true">(function(){var isTop=false;try{isTop=window.self===window.top;}catch(e){}if(!isTop)return;window.__ARENA_META={generationId:"kimi-k3.1-pro",tournamentId:"ee4b11f3-3cad-47ff-8947-7a06cbf5ac39"};var payload={tournamentId:"ee4b11f3-3cad-47ff-8947-7a06cbf5ac39",modelId:"kimi-k3.1-pro"};try{var r=document.referrer;if(r){var u=new URL(r);payload.referrerDomain=u.hostname;}}catch(e){}try{var vid=null;try{vid=localStorage.getItem('arena_vid');}catch(e){}if(!vid){vid=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)).slice(0,32);try{localStorage.setItem('arena_vid',vid);}catch(e){}}if(vid)payload.viewerId=vid;}catch(e){}try{fetch("https://www.designarena.ai/api/agon/page-views",{"method":"POST","headers":{"Content-Type":"application/json"},"body":JSON.stringify(payload),"keepalive":true});}catch(e){}})();</script>
+</head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- Reusable SVG icons keep the project independent of icon libraries. -->
+    <svg class="svg-sprite" aria-hidden="true">
+      <symbol id="icon-aperture" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="m14.7 3.8-5.1 8.8M20.8 9H10.7M18.2 18.3l-5.1-8.8M9.3 20.2l5.1-8.8M3.2 15h10.1M5.8 5.7l5.1 8.8"></path>
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path>
+      </symbol>
+      <symbol id="icon-upload" viewBox="0 0 24 24">
+        <path d="M12 16V4M7 9l5-5 5 5M5 15v4a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4"></path>
+      </symbol>
+      <symbol id="icon-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14M14 7l5 5-5 5"></path>
+      </symbol>
+      <symbol id="icon-compass" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"></path>
+      </symbol>
+      <symbol id="icon-share" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle><path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5"></path>
+      </symbol>
+      <symbol id="icon-users" viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="3"></circle><path d="M3.5 19v-1.5A4.5 4.5 0 0 1 8 13h2a4.5 4.5 0 0 1 4.5 4.5V19M16 5.5a3 3 0 0 1 0 5.8M17 13.5a4.5 4.5 0 0 1 3.5 4.4V19"></path>
+      </symbol>
+      <symbol id="icon-heart" viewBox="0 0 24 24">
+        <path d="M20.8 5.8a5.2 5.2 0 0 0-7.4 0L12 7.2l-1.4-1.4a5.2 5.2 0 0 0-7.4 7.4L12 22l8.8-8.8a5.2 5.2 0 0 0 0-7.4Z"></path>
+      </symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24">
+        <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle>
+      </symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24">
+        <path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13M10 11v5M14 11v5"></path>
+      </symbol>
+      <symbol id="icon-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M18 6 6 18"></path>
+      </symbol>
+      <symbol id="icon-menu" viewBox="0 0 24 24">
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </symbol>
+      <symbol id="icon-image" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9" r="1.5"></circle><path d="m3 17 5-5 4 4 3-3 6 6"></path>
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16.5 8"></path>
+      </symbol>
+      <symbol id="icon-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5v.5"></path>
+      </symbol>
+      <symbol id="icon-camera" viewBox="0 0 24 24">
+        <path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v11H3V8a1 1 0 0 1 1-1Z"></path><circle cx="12" cy="13" r="4"></circle>
+      </symbol>
+      <symbol id="icon-code" viewBox="0 0 24 24">
+        <path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"></path>
+      </symbol>
+      <symbol id="icon-server" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"></path>
+      </symbol>
+      <symbol id="icon-folder" viewBox="0 0 24 24">
+        <path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Z"></path>
+      </symbol>
+      <symbol id="icon-location" viewBox="0 0 24 24">
+        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle>
+      </symbol>
+    </svg>
+
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a class="brand" href="#home" aria-label="PhotoSphere home">
+          <span class="brand-mark">
+            <svg class="icon"><use href="#icon-aperture"></use></svg>
+          </span>
+          <span>Photo<span>Sphere</span></span>
+        </a>
+
+        <div class="nav-panel" id="navPanel">
+          <nav aria-label="Main navigation">
+            <ul class="nav-links">
+              <li><a class="nav-link active" href="#home">Home</a></li>
+              <li><a class="nav-link" href="#gallery">Explore Gallery</a></li>
+              <li><a class="nav-link" href="#upload">Upload Photo</a></li>
+              <li><a class="nav-link" href="#about">About</a></li>
+            </ul>
+          </nav>
+          <form class="header-search" id="headerSearchForm" role="search">
+            <label class="visually-hidden" for="headerSearch">Search photographs</label>
+            <svg class="icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+            <input
+              id="headerSearch"
+              type="search"
+              placeholder="Search photos..."
+              autocomplete="off"
+            />
+          </form>
+        </div>
+
+        <div class="header-actions">
+          <a class="button button-primary header-upload" href="#upload">
+            <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
+            <span>Upload Photo</span>
+          </a>
+          <button
+            class="icon-button menu-toggle"
+            id="menuToggle"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navPanel"
+            aria-expanded="false"
+          >
+            <svg class="icon"><use id="menuIconUse" href="#icon-menu"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="home" aria-labelledby="heroTitle">
+        <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow reveal" style="--reveal-delay: 40ms">
+              <span class="eyebrow-dot"></span>
+              BCS353 · Web Designing Workshop
+            </p>
+            <h1 class="hero-title reveal" id="heroTitle" style="--reveal-delay: 120ms">
+              Every Picture<br />Tells a <em>Story.</em>
+            </h1>
+            <p class="hero-subtitle reveal" style="--reveal-delay: 200ms">
+              Explore beautiful photography and share your own moments with the world.
+            </p>
+            <div class="hero-actions reveal" style="--reveal-delay: 280ms">
+              <a class="button button-primary button-large" href="#gallery">
+                Explore Gallery
+                <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+              </a>
+              <a class="button button-secondary button-large" href="#upload">
+                <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
+                Upload Your Photo
+              </a>
+            </div>
+            <div class="hero-note reveal" style="--reveal-delay: 350ms">
+              <span class="demo-dot"></span>
+              Interactive browser demo · No backend required
+            </div>
+          </div>
+
+          <div class="hero-visual reveal" style="--reveal-delay: 180ms">
+            <div class="hero-collage" id="heroCollage">
+              <figure class="hero-photo hero-photo-main">
+                <img
+                  src="images/alpine-lake.jpg"
+                  alt="Misty sunrise over Cradle Mountain and a still lake"
+                  fetchpriority="high"
+                />
+                <figcaption>
+                  <span>Stillness at Cradle Mountain</span>
+                  <small>Isaak Cole · Nature</small>
+                </figcaption>
+              </figure>
+              <figure class="hero-photo hero-photo-top">
+                <img
+                  src="images/white-architecture.jpg"
+                  alt="Curved white concrete architectural panels"
+                  fetchpriority="high"
+                />
+              </figure>
+              <figure class="hero-photo hero-photo-bottom">
+                <img
+                  src="images/portrait-light.jpg"
+                  alt="Portrait of a woman in soft natural light"
+                  fetchpriority="high"
+                />
+              </figure>
+              <div class="hero-floating-card">
+                <span class="floating-icon">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-camera"></use></svg>
+                </span>
+                <span><strong>12 curated frames</strong><small>Five ways to see the world</small></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container feature-grid" aria-label="Website features">
+          <article class="feature-card reveal" style="--reveal-delay: 80ms">
+            <span class="feature-icon feature-icon-blue">
+              <svg class="icon" aria-hidden="true"><use href="#icon-compass"></use></svg>
+            </span>
+            <div>
+              <h2>Explore Photography</h2>
+              <p>Browse nature, travel, portraits and more through a responsive collection.</p>
+            </div>
+            <a href="#gallery" class="feature-link" aria-label="Explore photography in the gallery">
+              <svg class="icon"><use href="#icon-arrow"></use></svg>
+            </a>
+          </article>
+          <article class="feature-card reveal" style="--reveal-delay: 150ms">
+            <span class="feature-icon feature-icon-purple">
+              <svg class="icon" aria-hidden="true"><use href="#icon-share"></use></svg>
+            </span>
+            <div>
+              <h2>Share Your Photos</h2>
+              <p>Choose a local image, preview it, and add your story to this browser session.</p>
+            </div>
+            <a href="#upload" class="feature-link" aria-label="Share your own photo">
+              <svg class="icon"><use href="#icon-arrow"></use></svg>
+            </a>
+          </article>
+          <article class="feature-card reveal" style="--reveal-delay: 220ms">
+            <span class="feature-icon feature-icon-indigo">
+              <svg class="icon" aria-hidden="true"><use href="#icon-users"></use></svg>
+            </span>
+            <div>
+              <h2>Discover Photographers</h2>
+              <p>Search by creator and open any photograph to see its full details and credit.</p>
+            </div>
+            <a href="#gallery" class="feature-link" aria-label="Discover photographers in the gallery">
+              <svg class="icon"><use href="#icon-arrow"></use></svg>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="gallery-section section" id="gallery" aria-labelledby="galleryTitle">
+        <div class="container">
+          <div class="section-heading reveal">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-dot"></span>The collection</p>
+              <h2 id="galleryTitle">Find a frame that <em>moves you.</em></h2>
+              <p>Search the collection, follow your curiosity, and save the photographs you love.</p>
+            </div>
+            <div class="collection-stat" aria-label="Total gallery photographs">
+              <strong id="totalPhotoCount">12</strong>
+              <span>photographs<br />in the collection</span>
+            </div>
+          </div>
+
+          <div class="gallery-toolbar reveal">
+            <div class="gallery-search-wrap">
+              <label for="gallerySearch">Search the collection</label>
+              <div class="gallery-search">
+                <svg class="icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+                <input
+                  id="gallerySearch"
+                  type="search"
+                  placeholder="Try ‘nature’ or a photographer’s name"
+                  autocomplete="off"
+                />
+                <button class="search-clear" id="clearSearch" type="button" aria-label="Clear search" hidden>
+                  <svg class="icon"><use href="#icon-close"></use></svg>
+                </button>
+              </div>
+            </div>
+            <div class="filter-area">
+              <span class="filter-label">Filter by category</span>
+              <div class="filter-scroll" role="group" aria-label="Photo category filters">
+                <button class="filter-button active" type="button" data-category="All" aria-pressed="true">
+                  All Photos <span class="filter-count" data-count-for="All">12</span>
+                </button>
+                <button class="filter-button" type="button" data-category="Nature" aria-pressed="false">
+                  Nature <span class="filter-count" data-count-for="Nature">3</span>
+                </button>
+                <button class="filter-button" type="button" data-category="Architecture" aria-pressed="false">
+                  Architecture <span class="filter-count" data-count-for="Architecture">2</span>
+                </button>
+                <button class="filter-button" type="button" data-category="People" aria-pressed="false">
+                  People <span class="filter-count" data-count-for="People">2</span>
+                </button>
+                <button class="filter-button" type="button" data-category="Travel" aria-pressed="false">
+                  Travel <span class="filter-count" data-count-for="Travel">3</span>
+                </button>
+                <button class="filter-button" type="button" data-category="Animals" aria-pressed="false">
+                  Animals <span class="filter-count" data-count-for="Animals">2</span>
+                </button>
+                <button class="filter-button favourite-filter" id="favouritesFilter" type="button" aria-pressed="false">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-heart"></use></svg>
+                  Favourites <span class="filter-count" id="favouriteFilterCount">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <p id="galleryCount" role="status" aria-live="polite">Showing 12 photographs</p>
+            <p id="activeFilterSummary">The complete collection</p>
+          </div>
+
+          <div class="photo-grid" id="photoGrid"></div>
+
+          <div class="empty-state" id="emptyState" hidden>
+            <span class="empty-icon">
+              <svg class="icon" aria-hidden="true"><use href="#icon-image"></use></svg>
+            </span>
+            <h3 id="emptyTitle">No photographs found</h3>
+            <p id="emptyMessage">Try another search or clear the filters to see the complete collection.</p>
+            <button class="button button-primary" id="resetFilters" type="button">Show All Photos</button>
+          </div>
+          <noscript>
+            <p class="noscript-message">Please enable JavaScript to search, filter, upload and view photo details.</p>
+          </noscript>
+        </div>
+      </section>
+
+      <section class="upload-section section" id="upload" aria-labelledby="uploadTitle">
+        <div class="container upload-layout">
+          <div class="upload-intro reveal">
+            <p class="eyebrow"><span class="eyebrow-dot"></span>Your moment, your frame</p>
+            <h2 id="uploadTitle">Share your <em>point of view.</em></h2>
+            <p class="upload-lead">
+              Select a photograph from your computer, tell us who made it, and add it to the gallery in a few simple steps.
+            </p>
+            <ol class="upload-steps">
+              <li><span>01</span><div><strong>Choose your image</strong><p>JPG, JPEG, PNG or WebP, up to 5 MB.</p></div></li>
+              <li><span>02</span><div><strong>Add the story</strong><p>Enter a title, photographer, category and description.</p></div></li>
+              <li><span>03</span><div><strong>Preview and publish locally</strong><p>Your photograph joins the search and filters immediately.</p></div></li>
+            </ol>
+            <div class="session-note">
+              <svg class="icon" aria-hidden="true"><use href="#icon-info"></use></svg>
+              <p><strong>Honest demo storage</strong>Uploaded images live only in this open page. They may disappear after a refresh and are never sent to a server in demo mode.</p>
+            </div>
+          </div>
+
+          <div class="upload-card reveal" style="--reveal-delay: 120ms">
+            <form id="uploadForm" novalidate>
+              <div class="form-heading">
+                <div>
+                  <span class="form-kicker">Local upload</span>
+                  <h3>Upload a photo</h3>
+                </div>
+                <span class="required-note"><span>*</span> Required fields</span>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="photoTitle">Photo title <span>*</span></label>
+                  <input id="photoTitle" name="title" type="text" maxlength="60" placeholder="e.g. Morning in the mountains" />
+                  <p class="field-error" id="titleError"></p>
+                </div>
+                <div class="form-field">
+                  <label for="photographerName">Photographer’s name <span>*</span></label>
+                  <input id="photographerName" name="photographer" type="text" maxlength="50" placeholder="Your full name" autocomplete="name" />
+                  <p class="field-error" id="photographerError"></p>
+                </div>
+                <div class="form-field form-field-full">
+                  <label for="photoCategory">Category <span>*</span></label>
+                  <select id="photoCategory" name="category">
+                    <option value="">Select a category</option>
+                    <option value="Nature">Nature</option>
+                    <option value="Architecture">Architecture</option>
+                    <option value="People">People</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Animals">Animals</option>
+                  </select>
+                  <p class="field-error" id="categoryError"></p>
+                </div>
+                <div class="form-field form-field-full">
+                  <div class="label-row">
+                    <label for="photoDescription">Short description <small>(optional)</small></label>
+                    <span id="descriptionCount">0 / 240</span>
+                  </div>
+                  <textarea
+                    id="photoDescription"
+                    name="description"
+                    rows="3"
+                    maxlength="240"
+                    placeholder="What moment does this photograph capture?"
+                  ></textarea>
+                  <p class="field-error" id="descriptionError"></p>
+                </div>
+
+                <div class="form-field form-field-full">
+                  <label for="photoFile">Image file <span>*</span></label>
+                  <input
+                    class="visually-hidden file-input"
+                    id="photoFile"
+                    name="photo"
+                    type="file"
+                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                  />
+                  <div class="upload-dropzone" id="uploadDropzone">
+                    <label class="file-prompt" id="filePrompt" for="photoFile">
+                      <span class="file-prompt-icon">
+                        <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
+                      </span>
+                      <strong>Drop your image here, or <span>browse</span></strong>
+                      <small>JPG, JPEG, PNG or WebP · Maximum 5 MB</small>
+                    </label>
+                    <div class="image-preview" id="imagePreview" hidden>
+                      <img id="previewImage" alt="Preview of your selected photograph" />
+                      <div class="preview-details">
+                        <span class="preview-check">
+                          <svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>
+                        </span>
+                        <div><strong id="previewFileName"></strong><small id="previewFileSize"></small></div>
+                        <button class="text-button" id="removeSelectedFile" type="button">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="field-error" id="fileError"></p>
+                </div>
+              </div>
+
+              <div class="upload-status" id="uploadStatus" role="status" hidden></div>
+              <div class="form-actions">
+                <button class="button button-primary button-large" id="submitPhoto" type="submit">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-upload"></use></svg>
+                  Upload Photo
+                </button>
+                <button class="button button-secondary button-large" id="cancelUpload" type="button">Cancel</button>
+              </div>
+              <p class="form-footnote">
+                Demo mode adds the image to this page only. No permanent server storage is claimed.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section section" id="about" aria-labelledby="aboutTitle">
+        <div class="container">
+          <div class="section-heading about-heading reveal">
+            <div>
+              <p class="eyebrow"><span class="eyebrow-dot"></span>Behind the project</p>
+              <h2 id="aboutTitle">Built to learn. <em>Designed to share.</em></h2>
+            </div>
+            <span class="project-badge">B.Tech · 2nd Year · AKTU</span>
+          </div>
+
+          <div class="about-grid">
+            <article class="about-card reveal">
+              <span class="about-card-icon">
+                <svg class="icon" aria-hidden="true"><use href="#icon-code"></use></svg>
+              </span>
+              <h3>About PhotoSphere</h3>
+              <p>
+                PhotoSphere is a web-based photo gallery application developed as a B.Tech Web Designing Workshop mini project. It demonstrates HTML, CSS, JavaScript, responsive web design, browser file handling, form validation, and dynamic gallery management.
+              </p>
+              <div class="technology-list" aria-label="Technologies used">
+                <span>HTML5</span><span>CSS3</span><span>Vanilla JavaScript</span><span>File API</span><span>localStorage</span>
+              </div>
+            </article>
+            <article class="about-card objectives-card reveal" style="--reveal-delay: 100ms">
+              <span class="about-card-icon purple">
+                <svg class="icon" aria-hidden="true"><use href="#icon-folder"></use></svg>
+              </span>
+              <h3>Project objectives</h3>
+              <ul class="objective-list">
+                <li><svg class="icon"><use href="#icon-check"></use></svg>Build a semantic, responsive interface without a framework.</li>
+                <li><svg class="icon"><use href="#icon-check"></use></svg>Practise arrays, objects, events, loops and DOM manipulation.</li>
+                <li><svg class="icon"><use href="#icon-check"></use></svg>Handle real local files with validation and safe previews.</li>
+                <li><svg class="icon"><use href="#icon-check"></use></svg>Prepare a clear path to a Spring Boot and MySQL backend.</li>
+              </ul>
+            </article>
+          </div>
+
+          <article class="backend-card reveal" id="backend">
+            <div class="backend-intro">
+              <span class="backend-icon"><svg class="icon" aria-hidden="true"><use href="#icon-server"></use></svg></span>
+              <div>
+                <div class="backend-title-row">
+                  <h3>Future Java backend</h3>
+                  <span class="demo-badge"><span></span>Demo mode active</span>
+                </div>
+                <p>The frontend is ready for a future Spring Boot REST API. Today, all gallery actions run locally in your browser.</p>
+              </div>
+            </div>
+            <div class="endpoint-grid" aria-label="Planned REST API endpoints">
+              <div><span class="http-method get">GET</span><code>/api/photos</code><small>Retrieve gallery photos</small></div>
+              <div><span class="http-method post">POST</span><code>/api/photos</code><small>Upload image + metadata</small></div>
+              <div><span class="http-method get">GET</span><code>/api/photos/{id}</code><small>Retrieve photo details</small></div>
+              <div><span class="http-method delete">DELETE</span><code>/api/photos/{id}</code><small>Delete an uploaded photo</small></div>
+            </div>
+            <div class="backend-footer">
+              <p>One configuration point: <code>API_BASE_URL</code> in <code>script.js</code>. The future upload will use <code>multipart/form-data</code>.</p>
+              <button class="button button-secondary" id="checkBackend" type="button">
+                <svg class="icon" aria-hidden="true"><use href="#icon-server"></use></svg>
+                Check API Connection
+              </button>
+            </div>
+            <p class="backend-status" id="backendStatus" role="status">
+              No server is connected. Click the button to test the configured local Spring Boot URL.
+            </p>
+          </article>
+
+          <div class="syllabus-strip reveal" aria-label="Syllabus concepts demonstrated">
+            <span>Semantic HTML</span><span>CSS Grid & Flexbox</span><span>Media Queries</span><span>DOM Events</span><span>Form Validation</span><span>Responsive Design</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-main">
+        <div class="footer-brand-column">
+          <a class="brand" href="#home">
+            <span class="brand-mark"><svg class="icon"><use href="#icon-aperture"></use></svg></span>
+            <span>Photo<span>Sphere</span></span>
+          </a>
+          <p>A personal photo gallery and sharing showcase for BCS353 Web Designing Workshop.</p>
+        </div>
+        <div class="footer-links">
+          <div><h2>Navigate</h2><a href="#home">Home</a><a href="#gallery">Explore Gallery</a><a href="#upload">Upload Photo</a></div>
+          <div><h2>Project</h2><a href="#about">About</a><a href="#backend">Backend Plan</a><a href="https://www.pexels.com/" target="_blank" rel="noopener noreferrer">Photo Credits</a></div>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <p>© <span id="currentYear">2026</span> PhotoSphere. Academic mini project.</p>
+        <p>HTML5 <span>·</span> CSS3 <span>·</span> Vanilla JavaScript</p>
+      </div>
+    </footer>
+
+    <!-- Native dialogs provide keyboard focus handling and Escape-key support. -->
+    <dialog class="photo-dialog" id="photoDialog" aria-labelledby="detailTitle">
+      <div class="dialog-layout">
+        <div class="dialog-image-wrap">
+          <img id="detailImage" alt="" />
+          <span class="dialog-image-label">PhotoSphere collection</span>
+        </div>
+        <div class="dialog-content">
+          <button class="icon-button dialog-close" id="closeDetails" type="button" aria-label="Close photo details">
+            <svg class="icon"><use href="#icon-close"></use></svg>
+          </button>
+          <div class="dialog-badges">
+            <span class="category-badge" id="detailCategory"></span>
+            <span class="uploaded-badge" id="detailUploadedBadge" hidden>Your upload</span>
+          </div>
+          <h2 id="detailTitle"></h2>
+          <p class="detail-photographer">Photographed by <strong id="detailPhotographer"></strong></p>
+          <p class="detail-description" id="detailDescription"></p>
+          <dl class="detail-meta">
+            <div><dt><svg class="icon"><use href="#icon-location"></use></svg>Location / source</dt><dd id="detailLocation"></dd></div>
+            <div><dt><svg class="icon"><use href="#icon-folder"></use></svg>Collection</dt><dd id="detailCollection"></dd></div>
+            <div id="detailFileRow" hidden><dt><svg class="icon"><use href="#icon-image"></use></svg>Local file</dt><dd id="detailFileName"></dd></div>
+          </dl>
+          <a class="source-link" id="detailSource" href="" target="_blank" rel="noopener noreferrer">
+            View original photo credit <svg class="icon"><use href="#icon-arrow"></use></svg>
+          </a>
+          <div class="dialog-actions">
+            <button class="button button-secondary" id="detailFavourite" type="button" aria-pressed="false">
+              <svg class="icon"><use href="#icon-heart"></use></svg><span>Add to Favourites</span>
+            </button>
+            <button class="button button-danger" id="detailDelete" type="button" hidden>
+              <svg class="icon"><use href="#icon-trash"></use></svg>Delete Upload
+            </button>
+          </div>
+          <button class="button button-primary dialog-done" id="doneDetails" type="button">Close Details</button>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="confirm-dialog" id="confirmDialog" aria-labelledby="confirmTitle">
+      <span class="confirm-icon"><svg class="icon"><use href="#icon-trash"></use></svg></span>
+      <h2 id="confirmTitle">Delete this upload?</h2>
+      <p id="confirmMessage">This removes the photo from the current gallery. This action cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="button button-secondary" id="cancelDelete" type="button">Keep Photo</button>
+        <button class="button button-danger-solid" id="confirmDelete" type="button">Delete Photo</button>
+      </div>
+    </dialog>
+
+    <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>
