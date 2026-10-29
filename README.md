@@ -1,4 +1,4 @@
-# PhotoSphere — Personal Photo Gallery and Sharing Showcase
+# Gallery-project — PhotoSphere Personal Photo Gallery and Sharing Showcase
 
 PhotoSphere is a frontend-only mini project for **BCS353 — Web Designing Workshop** (B.Tech 2nd year, AKTU). It uses **HTML5, CSS3 and vanilla JavaScript only**. There is no React, Bootstrap, Tailwind, TypeScript or backend dependency in the website code.
 
